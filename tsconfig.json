@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2020",
+    "lib": [
+      "ES2021"
+    ],
+    "declaration": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "outDir": "dist/",
+    "incremental": true,
+    "rootDirs": ["src"],
+    "declarationMap": false
+  },
+  "typedocOptions": {
+      "entryPoints": ["./src/index.ts"],
+      "entryPointStrategy": "expand",
+      "plugin": "typedoc-plugin-markdown",
+      "excludeExternals": true,
+      "readme": "none",
+      "externalPattern": ["**/node_modules/**"],
+      "excludePrivate": true,
+      "out": "docs"
+  },
+  "include": [ "src/**/*" ],
+  "exclude": ["coverage", "node_modules", "tests", "dist", "cli"]
+}
