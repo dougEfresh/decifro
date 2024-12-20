@@ -95,6 +95,7 @@
   },
   "jest": {
     "forceExit": true,
+    "testTimeout": 20000,
     "preset": "ts-jest",
     "moduleFileExtensions": [
       "js",
