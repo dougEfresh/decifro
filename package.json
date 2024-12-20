@@ -29,6 +29,8 @@
     "test:tx:dlnsrc": "jest tests/parseDlnSrcTransaction.test.ts",
     "test:tx:dlndst": "jest tests/parseDlnDstTransaction.test.ts",
     "test:stake": "jest tests/parseStake.test.ts",
+    "test:token": "jest tests/parseToken.test.ts",
+    "test:token22": "jest tests/parseToken22.test.ts",
     "test:sys": "jest tests/parseSystemTransaction.test.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
@@ -123,10 +125,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
+        "branches": 85,
+        "functions": 85,
+        "lines": 85,
+        "statements": 85
       }
     },
     "coveragePathIgnorePatterns": [
