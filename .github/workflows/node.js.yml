@@ -33,5 +33,5 @@ jobs:
     - run: pnpm run build
     - run: pnpm test
       env:
-        DEVNET: ${{ secret.DEVNET }}
-        MAINNET: ${{ secret.MAINNET }}
+        DEVNET: ${{ secrets.DEVNET }}
+        MAINNET: ${{ secrets.MAINNET }}
