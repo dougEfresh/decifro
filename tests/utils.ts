@@ -32,6 +32,10 @@ class TestUtils {
 		return Keypair.generate();
 	}
 
+	static signers(): PublicKey[] {
+		return [Keypair.generate().publicKey];
+	}
+
 	static getConnection(cluster: Cluster) {
 		if (!TestUtils.devnet) {
 			dotenv.config();
