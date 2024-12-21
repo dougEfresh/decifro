@@ -357,9 +357,9 @@ function decodeToken2022Instruction(instruction: TransactionInstruction): Parsed
 			break;
 		}
 		case TokenInstruction.InitializeMint2: {
-			const decodedIx = decodeInitializeMint2Instruction(instruction);
+			const decodedIx = decodeInitializeMint2Instruction(instruction, TOKEN_2022_PROGRAM_ID);
 			const tokenMint = decodedIx.keys.mint;
-			if (!tokenMint) throw new Error(`Failed to parse InitializeMint2 instruction`);
+			if (!tokenMint) throw new Error(`Failed to parse InitializeMint2 instruction keys:${JSON.stringify(decodedIx.keys)}`);
 			parsed = {
 				name: "initializeMint2",
 				accounts: [{ name: "mint", ...decodedIx.keys.mint }],
