@@ -1,7 +1,7 @@
 {
   "name": "yatp",
   "description": "Yet another transaction parser for Solana. A tool for arbitrary Solana transactions with IDL/custom parsers",
-  "version": "1.0.0",
+  "version": "1.0.0-rc1",
   "author": "dougefresh",
   "license": "LGPL-2.1",
   "homepage": "https://github.com/dougeEfresh/yatp",
@@ -82,8 +82,7 @@
     "@coral-xyz/anchor": "^0.30.1",
     "@coral-xyz/spl-token": "^0.30.1",
     "@noble/hashes": "^1.6.1",
-    "buffer": "6.0.3",
-    "camelcase": "8.0.0"
+    "buffer": "6.0.3"
   },
   "peerDependencies": {
     "@solana/buffer-layout": "^4.0.0",
