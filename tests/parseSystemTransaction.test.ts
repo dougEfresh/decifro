@@ -274,6 +274,8 @@ describe("parse system transaction", () => {
 
 		const dump = Buffer.from(tx.serialize());
 		const parsed = await parser.parseTransactionDump(connection, dump);
+		const parsedTxLookup = await parser.parseLookupTable(connection, dump);
+		await parser.parseTx(dump.toString("base64"), parsedTxLookup.lookup);
 		const transfers = parsed.filter((pix) => pix.name === "transfer");
 		assert(transfers.length === 5, `expect 5 transfers, got ${transfers.length}`);
 		for (let i = 0; i < transfers.length; i++) {

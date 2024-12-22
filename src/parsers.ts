@@ -239,8 +239,19 @@ export class SolanaParser {
 	 * @returns list of parsed instructions
 	 */
 	async parseTransactionDump(connection: Connection, txDump: string | Buffer): Promise<ParsedInstruction<Idl, string>[]> {
-		if (!(txDump instanceof Buffer)) txDump = Buffer.from(txDump, "base64");
-		const vtx = VersionedTransaction.deserialize(txDump);
+		const { tx, lookup } = await this.parseLookupTable(connection, txDump);
+		return this.parseTransactionData(tx.message, lookup);
+	}
+
+	/**
+	 * Parses lookup table address from a serialized transactions
+	 * @param connection the Rpc Connection to use
+	 * @param txDump base64-encoded string or raw Buffer which contains tx dump
+	 * @returns LoadedAddresses the Lookup table addresses
+	 */
+	async parseLookupTable(connection: Connection, tx: string | Buffer): Promise<{ tx: VersionedTransaction; lookup: LoadedAddresses }> {
+		if (!(tx instanceof Buffer)) tx = Buffer.from(tx, "base64");
+		const vtx = VersionedTransaction.deserialize(tx);
 		let loadedAddresses: LoadedAddresses = { writable: [], readonly: [] };
 
 		if (vtx.version !== "legacy") {
@@ -261,6 +272,17 @@ export class SolanaParser {
 			}
 		}
 
-		return this.parseTransactionData(vtx.message, loadedAddresses);
+		return { tx: vtx, lookup: loadedAddresses };
+	}
+
+	/**
+	 * Parses a base64 transaction
+	 * @param tx base64-encoded transaction
+	 * @param lookup LoadedAddresses used for v0 messages
+	 * @returns list of parsed instructions
+	 */
+	async parseTx(tx: string, lookup: LoadedAddresses): Promise<ParsedInstruction<Idl, string>[]> {
+		const vtx = VersionedTransaction.deserialize(Buffer.from(tx, "base64"));
+		return this.parseTransactionData(vtx.message, lookup);
 	}
 }
