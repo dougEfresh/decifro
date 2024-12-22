@@ -5,7 +5,7 @@
     "lib": [
       "ES2021"
     ],
-    "declaration": false,
+    "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -16,7 +16,7 @@
     "outDir": "dist/",
     "incremental": true,
     "rootDirs": ["src"],
-    "declarationMap": false
+    "declarationMap": true
   },
   "typedocOptions": {
       "entryPoints": ["./src/index.ts"],
