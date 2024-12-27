@@ -1,13 +1,13 @@
 {
-  "name": "yatp",
+  "name": "decifro",
   "description": "Yet another transaction parser for Solana. A tool for arbitrary Solana transactions with IDL/custom parsers",
   "version": "1.0.0-rc1",
   "author": "dougefresh",
   "license": "LGPL-2.1",
-  "homepage": "https://github.com/dougeEfresh/yatp",
+  "homepage": "https://github.com/dougeEfresh/decifro",
   "repository": {
     "type": "git",
-    "url": "github:dougeEfresh/yatp"
+    "url": "github:dougeEfresh/decifro"
   },
   "keywords": [
     "solana",
