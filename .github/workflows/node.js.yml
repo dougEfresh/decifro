@@ -119,9 +119,9 @@ jobs:
           name: build-output
       - name: Publish Canary Releases
         run: |
-          pnpm pkg delete devDependencies
+          # pnpm pkg delete devDependencies
           pnpm changeset version --snapshot canary
-          pnpm publish-packages 
+          pnpm publish
 
       # - name: Semantic Release
         # uses: cycjimmy/semantic-release-action@v4
