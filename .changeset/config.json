@@ -1,0 +1,19 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.5/schema.json",
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "public",
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "dougEfresh/decifro"
+    }
+  ],
+  "baseBranch": "main",
+  "snapshot": {
+    "useCalculatedVersion": true
+  },
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}

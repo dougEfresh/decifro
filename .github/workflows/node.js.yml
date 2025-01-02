@@ -108,14 +108,23 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      # Make sure to set up NPM and GitHub auth
-      - name: Configure npm for publish
+      - name: Configure NPM token
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          pnpm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+      - name: Publish Canary Releases
+        run: |
+          pnpm pkg delete devDependencies
+          pnpm changeset version --snapshot canary
+          pnpm publish-packages 
 
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
+      # - name: Semantic Release
+        # uses: cycjimmy/semantic-release-action@v4
         # with:
           # You can also pin a specific version or use another action.
           # By default, cycjimmy/semantic-release-action uses the "semantic-release" CLI.
@@ -123,3 +132,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_TAG: canary
