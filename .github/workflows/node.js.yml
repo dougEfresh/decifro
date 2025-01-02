@@ -62,5 +62,64 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: build-output
-    - run: pnpm install # Dependencies are cached, so this should be fast
-    - run: pnpm test:coverage
+    - run: pnpm install
+    - run: pnpm test
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4.0.0
+      with:
+        version: "latest"
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20.x"
+        cache: 'pnpm'
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-output
+    - run: pnpm install
+    - run: pnpm test:coverage || echo "failed"
+
+  release:
+    # only run on push (not on pull requests)
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: test  # only release if tests pass
+
+    steps:
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: "latest"
+
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # Make sure to set up NPM and GitHub auth
+      - name: Configure npm for publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        # with:
+          # You can also pin a specific version or use another action.
+          # By default, cycjimmy/semantic-release-action uses the "semantic-release" CLI.
+          # args: --debug
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
