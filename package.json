@@ -2,12 +2,12 @@
   "name": "decifro",
   "description": "Yet another transaction parser for Solana. A tool for arbitrary Solana transactions with IDL/custom parsers",
   "version": "1.0.0-rc1",
-  "author": "dougefresh",
+  "author": "dougEfresh",
   "license": "LGPL-2.1",
-  "homepage": "https://github.com/dougeEfresh/decifro",
+  "homepage": "https://github.com/dougEfresh/decifro",
   "repository": {
     "type": "git",
-    "url": "github:dougeEfresh/decifro"
+    "url": "github:dougEfresh/decifro"
   },
   "keywords": [
     "solana",
@@ -17,7 +17,8 @@
     "dist/**",
     "docs/**",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
