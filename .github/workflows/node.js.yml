@@ -119,7 +119,6 @@ jobs:
           name: build-output
       - name: Publish Canary Releases
         run: |
-          # pnpm pkg delete devDependencies
           pnpm changeset version --snapshot canary
           pnpm publish
 
