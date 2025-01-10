@@ -57,6 +57,19 @@ function flattenIdlAccounts(accounts: IdlInstructionAccountItem2[], prefix?: str
 }
 
 /**
+ * Result the SolanaParser
+ *
+ */
+export interface ParserResults {
+	/*
+	 * The raw data from the parsedInstructions. instructionData[0] is the raw data for parsedInstructions[0].
+	 */
+	instructionData: Uint8Array[];
+	parsedInstructions: ParsedInstruction<Idl, string>[];
+	parsedAccounts: AccountMeta[];
+}
+
+/**
  * Class for parsing arbitrary solana transactions in various formats
  * - by txHash
  * - from raw transaction data (base64 encoded or buffer)
@@ -205,7 +218,13 @@ export class SolanaParser {
 		altLoadedAddresses: T extends VersionedMessage ? LoadedAddresses | undefined : undefined = undefined,
 	): ParsedInstruction<Idl, string>[] {
 		const parsedAccounts = parseTransactionAccounts(txMessage, altLoadedAddresses);
-
+		const parsedInstructions = [];
+		const instructionData = [];
+		for (let i = 0; i < txMessage.compiledInstructions.length; i++) {
+			const inst = txMessage.compiledInstructions[0];
+			instructionData.push(inst.data);
+			parsedInstructions.push(this.parseInstruction(compiledInstructionToInstruction(inst, parsedAccounts)));
+		}
 		return txMessage.compiledInstructions.map((instruction) => this.parseInstruction(compiledInstructionToInstruction(instruction, parsedAccounts)));
 	}
 
