@@ -120,7 +120,7 @@ jobs:
       - name: Publish Canary Releases
         run: |
           pnpm changeset version --snapshot canary
-          pnpm publish
+          echo pnpm publish
 
       # - name: Semantic Release
         # uses: cycjimmy/semantic-release-action@v4
