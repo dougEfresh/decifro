@@ -26,8 +26,8 @@ describe("parse system transaction", () => {
 		);
 		const b64 = Buffer.from(tx.serialize({ requireAllSignatures: false })).toString("base64");
 		const parsed = await parser.parseTransactionDump(connection, b64);
-		assert.equal(parsed.length, 1);
-		const i = parsed[0] as ParsedIdlInstruction<SystemProgramIdl, "advanceNonceAccount">;
+		assert.equal(parsed.parsedInstructions.length, 1);
+		const i = parsed.parsedInstructions[0] as ParsedIdlInstruction<SystemProgramIdl, "advanceNonceAccount">;
 		assert.equal(i.programId, SystemProgram.programId);
 		assert.equal(i.name, "advanceNonceAccount");
 	});
@@ -44,7 +44,7 @@ describe("parse system transaction", () => {
 
 		const parsed = await parser.parseTransactionDump(connection, tx);
 		// this creates the nonce account and inits
-		assert.equal(parsed.length, 2);
+		assert.equal(parsed.parsedInstructions.length, 2);
 	});
 
 	it("should parse SystemProgram.nonceWithdraw instruction", async () => {
@@ -64,7 +64,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.nonceAuthorize instruction", async () => {
@@ -83,7 +83,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.allocate instruction (without seed)", async () => {
@@ -101,7 +101,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.allocate instruction (with seed)", async () => {
@@ -122,7 +122,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.assign instruction (without seed)", async () => {
@@ -140,7 +140,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.assign instruction (with seed)", async () => {
@@ -160,7 +160,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.nonceInitialize instruction", async () => {
@@ -178,7 +178,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.createAccount instruction", async () => {
@@ -199,7 +199,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.createAccountWithSeed instruction", async () => {
@@ -222,7 +222,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("should parse SystemProgram.transfer instruction", async () => {
@@ -244,7 +244,7 @@ describe("parse system transaction", () => {
 				requireAllSignatures: false,
 			}),
 		);
-		assert.equal(parsed.length, 1);
+		assert.equal(parsed.parsedInstructions.length, 1);
 	});
 
 	it("parse-lookup", async () => {
@@ -276,7 +276,7 @@ describe("parse system transaction", () => {
 		const parsed = await parser.parseTransactionDump(connection, dump);
 		const parsedTxLookup = await parser.parseLookupTable(connection, dump);
 		await parser.parseTx(dump.toString("base64"), parsedTxLookup.lookup);
-		const transfers = parsed.filter((pix) => pix.name === "transfer");
+		const transfers = parsed.parsedInstructions.filter((pix) => pix.name === "transfer");
 		assert(transfers.length === 5, `expect 5 transfers, got ${transfers.length}`);
 		for (let i = 0; i < transfers.length; i++) {
 			const pix = transfers[i] as ParsedIdlInstruction<SystemProgramIdl, "transfer">;
