@@ -11,9 +11,10 @@ import {
 	createCreateNativeMintInstruction,
 	AuthorityType,
 	createSetAuthorityInstruction,
+	createInitializeMultisigInstruction,
 } from "@solana/spl-token";
 
-import { SplToken22 } from "../src/programs/spl-token-22.program";
+import { SplToken22 } from "../src/";
 const parser = new SolanaParser([]);
 const pk = TestUtils.pk();
 
@@ -66,6 +67,15 @@ describe("parse token22 program", () => {
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "transferCheckedWithFee");
+	});
+
+	it("should parse InitializeMultisig instruction", () => {
+		const inst = createInitializeMultisigInstruction(pk, [pk], 100, TOKEN_2022_PROGRAM_ID);
+		// @ts-ignore
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "initializeMultisig">;
+		assert.isDefined(result);
+		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
+		assert.equal(result.name, "initializeMultisig");
 	});
 
 	it(`should parse createInitializeMintCloseAuthorityInstruction`, () => {

@@ -16,7 +16,10 @@ describe("Test parse transaction", () => {
 		const txm = result?.transaction.message!;
 		const parsed = parser.parseTransactionData(txm, result?.meta?.loadedAddresses);
 
-		const createOrder = parsed?.find((pix) => pix.name === "create_order_with_nonce") as ParsedIdlInstruction<DlnSrc, "create_order_with_nonce">;
+		const createOrder = parsed?.parsedInstructions.find((pix) => pix.name === "create_order_with_nonce") as ParsedIdlInstruction<
+			DlnSrc,
+			"create_order_with_nonce"
+		>;
 		assert.equal(createOrder.args.order_args.give_original_amount.toString(), "3011764280");
 		assert.equal(createOrder.accounts[0].name, "maker");
 	});

@@ -57,6 +57,19 @@ function flattenIdlAccounts(accounts: IdlInstructionAccountItem2[], prefix?: str
 }
 
 /**
+ * Result the SolanaParser
+ *
+ */
+export interface ParserResults {
+	/*
+	 * The raw data from the parsedInstructions. instructionData[0] is the raw data for parsedInstructions[0].
+	 */
+	instructionData: Uint8Array[];
+	parsedInstructions: ParsedInstruction<Idl, string>[];
+	parsedAccounts: AccountMeta[];
+}
+
+/**
  * Class for parsing arbitrary solana transactions in various formats
  * - by txHash
  * - from raw transaction data (base64 encoded or buffer)
@@ -203,10 +216,20 @@ export class SolanaParser {
 	parseTransactionData<T extends Message | VersionedMessage>(
 		txMessage: T,
 		altLoadedAddresses: T extends VersionedMessage ? LoadedAddresses | undefined : undefined = undefined,
-	): ParsedInstruction<Idl, string>[] {
+	): ParserResults {
 		const parsedAccounts = parseTransactionAccounts(txMessage, altLoadedAddresses);
-
-		return txMessage.compiledInstructions.map((instruction) => this.parseInstruction(compiledInstructionToInstruction(instruction, parsedAccounts)));
+		const parsedInstructions = [];
+		const instructionData = [];
+		for (let i = 0; i < txMessage.compiledInstructions.length; i++) {
+			const inst = txMessage.compiledInstructions[i];
+			instructionData.push(inst.data);
+			parsedInstructions.push(this.parseInstruction(compiledInstructionToInstruction(inst, parsedAccounts)));
+		}
+		return {
+			instructionData,
+			parsedInstructions,
+			parsedAccounts,
+		};
 	}
 
 	/**
@@ -221,7 +244,7 @@ export class SolanaParser {
 		txId: string,
 		flatten: boolean = false,
 		commitment: Finality = "confirmed",
-	): Promise<ParsedInstruction<Idl, string>[] | null> {
+	): Promise<ParserResults | ParsedInstruction<Idl, string>[] | null> {
 		const transaction = await connection.getTransaction(txId, { commitment: commitment, maxSupportedTransactionVersion: 0 });
 		if (!transaction) return null;
 		if (flatten) {
@@ -238,7 +261,7 @@ export class SolanaParser {
 	 * @param txDump base64-encoded string or raw Buffer which contains tx dump
 	 * @returns list of parsed instructions
 	 */
-	async parseTransactionDump(connection: Connection, txDump: string | Buffer): Promise<ParsedInstruction<Idl, string>[]> {
+	async parseTransactionDump(connection: Connection, txDump: string | Buffer): Promise<ParserResults> {
 		const { tx, lookup } = await this.parseLookupTable(connection, txDump);
 		return this.parseTransactionData(tx.message, lookup);
 	}
@@ -281,7 +304,7 @@ export class SolanaParser {
 	 * @param lookup LoadedAddresses used for v0 messages
 	 * @returns list of parsed instructions
 	 */
-	async parseTx(tx: string, lookup: LoadedAddresses): Promise<ParsedInstruction<Idl, string>[]> {
+	async parseTx(tx: string, lookup: LoadedAddresses): Promise<ParserResults> {
 		const vtx = VersionedTransaction.deserialize(Buffer.from(tx, "base64"));
 		return this.parseTransactionData(vtx.message, lookup);
 	}

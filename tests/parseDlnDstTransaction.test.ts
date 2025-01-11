@@ -16,7 +16,7 @@ describe("Test parse transaction", () => {
 		const txm = result?.transaction.message!;
 		const parsed = parser.parseTransactionData(txm, result?.meta?.loadedAddresses);
 
-		const fulfillOrder = parsed?.find((pix) => pix.name === "fulfill_order") as ParsedIdlInstruction<DlnDst, "fulfill_order">;
+		const fulfillOrder = parsed?.parsedInstructions.find((pix) => pix.name === "fulfill_order") as ParsedIdlInstruction<DlnDst, "fulfill_order">;
 		assert.equal(fulfillOrder.args.unvalidated_order.maker_order_nonce.toString(), "1730296839695");
 	});
 
@@ -27,7 +27,7 @@ describe("Test parse transaction", () => {
 
 		const txm = result?.transaction.message!;
 		const parsed = parser.parseTransactionData(txm, result?.meta?.loadedAddresses);
-		const unlock = parsed?.find((v) => v.name === "send_batch_unlock") as ParsedIdlInstruction<DlnDst, "send_batch_unlock">;
+		const unlock = parsed?.parsedInstructions.find((v) => v.name === "send_batch_unlock") as ParsedIdlInstruction<DlnDst, "send_batch_unlock">;
 		assert.equal(unlock.accounts[10].name, "sending.bridge");
 	});
 });

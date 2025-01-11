@@ -85,6 +85,10 @@ jobs:
         name: build-output
     - run: pnpm install
     - run: pnpm test:coverage || echo "failed"
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   release:
     # only run on push (not on pull requests)
