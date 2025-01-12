@@ -12,6 +12,12 @@ import {
 	AuthorityType,
 	createSetAuthorityInstruction,
 	createInitializeMultisigInstruction,
+	createInitializeDefaultAccountStateInstruction,
+	createUpdateDefaultAccountStateInstruction,
+	//createEnableRequiredMemoTransfersInstruction,
+	//createInitializeMemberInstruction,
+	createUpdateGroupMemberPointerInstruction,
+	AccountState,
 } from "@solana/spl-token";
 
 const parser = new SolanaParser([]);
@@ -86,6 +92,33 @@ describe("parse token22 program", () => {
 		assert.equal(result.name, "initializeMintCloseAuthority");
 		assert.equal(closeAuth.toBase58(), closeAuth.toBase58());
 		assert.equal(result.accounts[0].pubkey, pk);
+	});
+
+	it(`should parse initializeDefaultAccountState`, () => {
+		const st = AccountState.Frozen;
+		const inst = createInitializeDefaultAccountStateInstruction(pk, st, TOKEN_2022_PROGRAM_ID);
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<any, "initializeDefaultAccountState">;
+		assert.isDefined(result);
+		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
+		assert.equal(result.name, "initializeDefaultAccountState");
+	});
+
+	it(`should parse updateDefaultAccountState`, () => {
+		const st = AccountState.Frozen;
+		const inst = createUpdateDefaultAccountStateInstruction(pk, st, TOKEN_2022_PROGRAM_ID);
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<any, "updateDefaultAccountState">;
+		assert.isDefined(result);
+		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
+		assert.equal(result.name, "updateDefaultAccountState");
+	});
+
+	it(`should parse createInitializeMemberInstruction`, () => {
+		const pk = TestUtils.pk();
+		const inst = createUpdateGroupMemberPointerInstruction(pk, pk, null);
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<any, "updateGroupMemberPointer">;
+		assert.isDefined(result);
+		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
+		assert.equal(result.name, "updateGroupMemberPointer");
 	});
 });
 
