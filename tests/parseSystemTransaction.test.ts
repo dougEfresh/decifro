@@ -1,7 +1,7 @@
 import { assert } from "chai";
-import { BN, SystemProgram as SystemProgramIdl } from "@coral-xyz/anchor";
+import { BN } from "@coral-xyz/anchor";
 import { Keypair, PublicKey, SystemProgram, Transaction, TransactionMessage, VersionedTransaction } from "@solana/web3.js";
-import { ParsedIdlInstruction, SolanaParser } from "../src/index";
+import { ParsedIdlInstruction, SolanaParser, SystemProgramIdl } from "../src/index";
 import { TestUtils, serialize } from "./utils";
 
 const connection = TestUtils.getConnection("devnet");

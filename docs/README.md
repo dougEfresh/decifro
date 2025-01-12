@@ -1,8 +1,8 @@
-**yasp**
+**decifro**
 
 ***
 
-# yasp
+# decifro
 
 ## Classes
 
@@ -13,12 +13,14 @@
 - [ParsedAccount](interfaces/ParsedAccount.md)
 - [ParsedCustomInstruction](interfaces/ParsedCustomInstruction.md)
 - [ParsedIdlInstruction](interfaces/ParsedIdlInstruction.md)
+- [ParserResults](interfaces/ParserResults.md)
 - [ProgramInfoType](interfaces/ProgramInfoType.md)
 
 ## Type Aliases
 
+- [AssociatedTokenProgramIdl](type-aliases/AssociatedTokenProgramIdl.md)
+- [ComputeBudgetIdl](type-aliases/ComputeBudgetIdl.md)
 - [IdlAccount](type-aliases/IdlAccount.md)
-- [IdlAccounts](type-aliases/IdlAccounts.md)
 - [IdlAccountsToFlatMeta](type-aliases/IdlAccountsToFlatMeta.md)
 - [IdlInstructionAccount](type-aliases/IdlInstructionAccount.md)
 - [IdlInstructionAccountItem2](type-aliases/IdlInstructionAccountItem2.md)
@@ -33,7 +35,10 @@
 - [ParsedInstruction](type-aliases/ParsedInstruction.md)
 - [ParserFunction](type-aliases/ParserFunction.md)
 - [ProgramLogContext](type-aliases/ProgramLogContext.md)
-- [SplToken](type-aliases/SplToken.md)
+- [SplToken22Idl](type-aliases/SplToken22Idl.md)
+- [SplTokenIdl](type-aliases/SplTokenIdl.md)
+- [StakeIdl](type-aliases/StakeIdl.md)
+- [SystemProgramIdl](type-aliases/SystemProgramIdl.md)
 - [TransactionWithLogs](type-aliases/TransactionWithLogs.md)
 - [UnknownInstruction](type-aliases/UnknownInstruction.md)
 

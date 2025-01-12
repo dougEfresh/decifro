@@ -1,12 +1,14 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / compiledInstructionToInstruction
+[decifro](../README.md) / compiledInstructionToInstruction
 
 # Function: compiledInstructionToInstruction()
 
 > **compiledInstructionToInstruction**\<`Ix`\>(`compiledInstruction`, `parsedAccounts`): `TransactionInstruction`
+
+Defined in: [helpers.ts:62](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/helpers.ts#L62)
 
 Converts compiled instruction into common TransactionInstruction
 
@@ -31,7 +33,3 @@ account meta, result of [parseTransactionAccounts](parseTransactionAccounts.md)
 `TransactionInstruction`
 
 TransactionInstruction
-
-## Defined in
-
-helpers.ts:62

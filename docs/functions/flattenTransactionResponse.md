@@ -1,12 +1,14 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / flattenTransactionResponse
+[decifro](../README.md) / flattenTransactionResponse
 
 # Function: flattenTransactionResponse()
 
 > **flattenTransactionResponse**(`transaction`): `TransactionInstruction`[]
+
+Defined in: [helpers.ts:119](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/helpers.ts#L119)
 
 Converts transaction response with CPI into artifical transaction that contains all instructions from tx and CPI
 
@@ -23,7 +25,3 @@ transactionResponse to convert from
 `TransactionInstruction`[]
 
 Transaction object
-
-## Defined in
-
-helpers.ts:119

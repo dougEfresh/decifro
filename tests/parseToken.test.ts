@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { ParsedIdlInstruction, SolanaParser, SplToken } from "../src/index";
+import { ParsedIdlInstruction, SolanaParser, SplTokenIdl, SplToken22Idl } from "../src/index";
 import { TestUtils } from "./utils";
 import {
 	TOKEN_PROGRAM_ID,
@@ -29,7 +29,6 @@ import {
 	TOKEN_2022_PROGRAM_ID,
 	AuthorityType,
 } from "@solana/spl-token";
-import { SplToken22 } from "../src/programs/spl-token-22.program";
 import { PublicKey } from "@solana/web3.js";
 const parser = new SolanaParser([]);
 const pk = TestUtils.pk();
@@ -38,14 +37,15 @@ const programs = [TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID];
 function programToName(program: PublicKey): string {
 	return program === TOKEN_PROGRAM_ID ? "Token" : "Token22";
 }
+
 describe("token createBurnInstruction", () => {
 	for (const program of programs) {
 		const programName = programToName(program);
 		it(`should parse createBurnInstruction for ${programName}`, () => {
 			const inst = createBurnInstruction(pk, pk, pk, 12312, TestUtils.signers(), program);
-			let result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "burn">;
+			let result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "burn">;
 			if (program == TOKEN_2022_PROGRAM_ID) {
-				result = result as ParsedIdlInstruction<SplToken22, "burn">;
+				result = result as ParsedIdlInstruction<SplToken22Idl, "burn">;
 			}
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
@@ -61,9 +61,9 @@ describe("token createBurnCheckedInstruction", () => {
 		const programName = programToName(program);
 		it(`should parse createBurnInstruction for ${programName}`, () => {
 			const inst = createBurnCheckedInstruction(pk, pk, pk, 12312, 6, TestUtils.signers(), program);
-			let result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "burnChecked">;
+			let result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "burnChecked">;
 			if (program == TOKEN_2022_PROGRAM_ID) {
-				result = result as ParsedIdlInstruction<SplToken22, "burnChecked">;
+				result = result as ParsedIdlInstruction<SplToken22Idl, "burnChecked">;
 			}
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
@@ -81,9 +81,9 @@ describe("token createApproveInstruction", () => {
 
 		it(`should parse createApproveInstruction for ${programName}`, () => {
 			const inst = createApproveInstruction(pk, pk, pk, 12312, TestUtils.signers(), program);
-			let result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "approve">;
+			let result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "approve">;
 			if (program == TOKEN_2022_PROGRAM_ID) {
-				result = result as ParsedIdlInstruction<SplToken22, "approve">;
+				result = result as ParsedIdlInstruction<SplToken22Idl, "approve">;
 			}
 
 			assert.isDefined(result);
@@ -101,7 +101,7 @@ describe("token createApproveCheckInstruction", () => {
 
 		it(`should parse createApproveCheckedInstruction for ${programName}`, () => {
 			const inst = createApproveCheckedInstruction(pk, pk, pk, pk, 12312, 6, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "approveChecked">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "approveChecked">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "approveChecked");
@@ -118,7 +118,7 @@ describe("token createMintToInstruction", () => {
 
 		it(`should parse createMintToInstruction for ${programName}`, () => {
 			const inst = createMintToInstruction(pk, pk, pk, 12312, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "mintTo">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "mintTo">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.args.amount.toString(), "12312");
@@ -134,7 +134,7 @@ describe("token createMintToCheckedInstruction", () => {
 
 		it(`should parse createMintToCheckedInstruction for ${programName}`, () => {
 			const inst = createMintToCheckedInstruction(pk, pk, pk, 12312, 6, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "mintToChecked">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "mintToChecked">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.args.amount.toString(), "12312");
@@ -151,7 +151,7 @@ describe("token createTransferInstruction", () => {
 
 		it(`should parse createTransferInstruction for ${programName}`, () => {
 			const inst = createTransferInstruction(pk, pk, pk, 12312, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "transfer">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "transfer">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.args.amount.toString(), "12312");
@@ -167,7 +167,7 @@ describe("token createTransferCheckedInstruction", () => {
 
 		it(`should parse createTransferCheckedInstruction for ${programName}`, () => {
 			const inst = createTransferCheckedInstruction(pk, pk, pk, pk, 12312, 6, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "transferChecked">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "transferChecked">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.args.amount.toString(), "12312");
@@ -183,7 +183,7 @@ describe("token createInitializeMintInstruction", () => {
 
 		it(`should parse createInitializeMintInstruction for ${programName}`, () => {
 			const inst = createInitializeMintInstruction(pk, 6, pk, pk, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "initializeMint">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "initializeMint">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "initializeMint");
@@ -199,7 +199,7 @@ describe("token createInitializeMint2Instruction", () => {
 
 		it(`should parse createInitializeMint2Instruction for ${programName}`, () => {
 			const inst = createInitializeMint2Instruction(pk, 6, pk, pk, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "initializeMint2">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "initializeMint2">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "initializeMint2");
@@ -215,7 +215,7 @@ describe("token createCloseAccountInstruction", () => {
 
 		it(`should parse createCloseAccountInstruction for ${programName}`, () => {
 			const inst = createCloseAccountInstruction(pk, pk, pk, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "closeAccount">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "closeAccount">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "closeAccount");
@@ -230,7 +230,7 @@ describe("token createFreezeAccountInstruction", () => {
 
 		it(`should parse createCloseAccountInstruction for ${programName}`, () => {
 			const inst = createFreezeAccountInstruction(pk, pk, pk, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "freezeAccount">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "freezeAccount">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "freezeAccount");
@@ -245,7 +245,7 @@ describe("token createInitializeAccountInstruction", () => {
 
 		it(`should parse createInitializeAccountInstruction for ${programName}`, () => {
 			const inst = createInitializeAccountInstruction(pk, pk, pk, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "initializeAccount">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "initializeAccount">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "initializeAccount");
@@ -260,7 +260,7 @@ describe("token createInitializeAccount2Instruction", () => {
 
 		it(`should parse createInitializeAccount2Instruction for ${programName}`, () => {
 			const inst = createInitializeAccount2Instruction(pk, pk, pk, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "initializeAccount2">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "initializeAccount2">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "initializeAccount2");
@@ -275,7 +275,7 @@ describe("token createInitializeAccount3Instruction", () => {
 
 		it(`should parse createInitializeAccount3Instruction for ${programName}`, () => {
 			const inst = createInitializeAccount3Instruction(pk, pk, pk, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "initializeAccount3">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "initializeAccount3">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "initializeAccount3");
@@ -290,7 +290,7 @@ describe("token createRevokeInstruction", () => {
 
 		it(`should parse createRevokeInstruction for ${programName}`, () => {
 			const inst = createRevokeInstruction(pk, pk, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "revoke">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "revoke">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "revoke");
@@ -305,7 +305,7 @@ describe("token createSyncNativeInstruction", () => {
 
 		it(`should parse createSyncNativeInstruction for ${programName}`, () => {
 			const inst = createSyncNativeInstruction(pk, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "syncNative">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "syncNative">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "syncNative");
@@ -320,7 +320,7 @@ describe("token createThawAccountInstruction", () => {
 
 		it(`should parse createThawAccountInstruction for ${programName}`, () => {
 			const inst = createThawAccountInstruction(pk, pk, pk, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "thawAccount">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "thawAccount">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "thawAccount");
@@ -335,7 +335,7 @@ describe("token createUiAmountToAmountInstruction ", () => {
 
 		it(`should parse createUiAmountToAmountInstruction for ${programName}`, () => {
 			const inst = createUiAmountToAmountInstruction(pk, "1", program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "uiAmountToAmount">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "uiAmountToAmount">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "uiAmountToAmount");
@@ -351,7 +351,7 @@ describe("token createAmountToUiAmountInstruction ", () => {
 
 		it(`should parse createAmountToUiAmountInstruction for ${programName}`, () => {
 			const inst = createAmountToUiAmountInstruction(pk, 12, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "amountToUiAmount">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "amountToUiAmount">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "amountToUiAmount");
@@ -367,7 +367,7 @@ describe("token createInitializeMultisigInstruction ", () => {
 
 		it(`should parse createInitializeMultisigInstruction for ${programName}`, () => {
 			const inst = createInitializeMultisigInstruction(pk, TestUtils.signers(), 1, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "initializeMultisig">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "initializeMultisig">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "initializeMultisig");
@@ -382,7 +382,7 @@ describe("token createInitializeImmutableOwnerInstruction", () => {
 
 		it(`should parse createInitializeImmutableOwnerInstruction for ${programName}`, () => {
 			const inst = createInitializeImmutableOwnerInstruction(pk, program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "initializeImmutableOwner">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "initializeImmutableOwner">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "initializeImmutableOwner");
@@ -398,7 +398,7 @@ describe("token createSetAuthorityInstruction", () => {
 		it(`should parse createSetAuthorityInstruction for ${programName}`, () => {
 			const newAuth = TestUtils.pk();
 			const inst = createSetAuthorityInstruction(pk, pk, AuthorityType.CloseAccount, newAuth, TestUtils.signers(), program);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken, "setAuthority">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplTokenIdl, "setAuthority">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), program.toBase58());
 			assert.equal(result.name, "setAuthority");

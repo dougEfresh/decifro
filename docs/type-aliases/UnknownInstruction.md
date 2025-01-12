@@ -1,12 +1,14 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / UnknownInstruction
+[decifro](../README.md) / UnknownInstruction
 
 # Type Alias: UnknownInstruction
 
 > **UnknownInstruction**: `object`
+
+Defined in: [interfaces.ts:59](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L59)
 
 ## Type declaration
 
@@ -29,7 +31,3 @@
 ### programId
 
 > **programId**: `PublicKey`
-
-## Defined in
-
-interfaces.ts:61

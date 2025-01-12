@@ -1,12 +1,14 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / TransactionWithLogs
+[decifro](../README.md) / TransactionWithLogs
 
 # Type Alias: TransactionWithLogs
 
 > **TransactionWithLogs**: `object`
+
+Defined in: [interfaces.ts:20](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L20)
 
 ## Type declaration
 
@@ -17,7 +19,3 @@
 ### transaction
 
 > **transaction**: `Transaction`
-
-## Defined in
-
-interfaces.ts:22
