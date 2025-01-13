@@ -13,6 +13,7 @@ import {
 	VersionedTransaction,
 	AddressLookupTableAccount,
 	StakeProgram,
+	ComputeBudgetProgram,
 } from "@solana/web3.js";
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
 import { BorshInstructionCoder, Idl } from "@coral-xyz/anchor";
@@ -36,6 +37,7 @@ import {
 	decodeTokenInstruction,
 	decodeToken2022Instruction,
 	decodeAssociatedTokenInstruction,
+	decodeComputeBudgetInstruction,
 } from "./decoders";
 
 function flattenIdlAccounts(accounts: IdlInstructionAccountItem2[], prefix?: string): IdlAccount[] {
@@ -94,6 +96,7 @@ export class SolanaParser {
 			[TOKEN_2022_PROGRAM_ID.toBase58(), decodeToken2022Instruction],
 			[ASSOCIATED_TOKEN_PROGRAM_ID.toBase58(), decodeAssociatedTokenInstruction],
 			[StakeProgram.programId.toBase58(), decodeStakeInstruction],
+			[ComputeBudgetProgram.programId.toBase58(), decodeComputeBudgetInstruction],
 		];
 		let result: InstructionParsers;
 		parsers = parsers || [];
@@ -269,7 +272,7 @@ export class SolanaParser {
 	/**
 	 * Parses lookup table address from a serialized transactions
 	 * @param connection the Rpc Connection to use
-	 * @param txDump base64-encoded string or raw Buffer which contains tx dump
+	 * @param tx base64-encoded string or raw Buffer which contains tx dump
 	 * @returns LoadedAddresses the Lookup table addresses
 	 */
 	async parseLookupTable(connection: Connection, tx: string | Buffer): Promise<{ tx: VersionedTransaction; lookup: LoadedAddresses }> {
@@ -304,7 +307,7 @@ export class SolanaParser {
 	 * @param lookup LoadedAddresses used for v0 messages
 	 * @returns list of parsed instructions
 	 */
-	async parseTx(tx: string, lookup: LoadedAddresses): Promise<ParserResults> {
+	parseTx(tx: string, lookup: LoadedAddresses): ParserResults {
 		const vtx = VersionedTransaction.deserialize(Buffer.from(tx, "base64"));
 		return this.parseTransactionData(vtx.message, lookup);
 	}

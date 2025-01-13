@@ -1,12 +1,14 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / IdlInstructionAccounts
+[decifro](../README.md) / IdlInstructionAccounts
 
 # Type Alias: IdlInstructionAccounts
 
 > **IdlInstructionAccounts**: `object`
+
+Defined in: [interfaces.ts:101](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L101)
 
 ## Type declaration
 
@@ -17,7 +19,3 @@
 ### name
 
 > **name**: `string`
-
-## Defined in
-
-interfaces.ts:103

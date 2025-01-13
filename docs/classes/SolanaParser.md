@@ -1,10 +1,12 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / SolanaParser
+[decifro](../README.md) / SolanaParser
 
 # Class: SolanaParser
+
+Defined in: [parsers.ts:82](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L82)
 
 Class for parsing arbitrary solana transactions in various formats
 - by txHash
@@ -18,6 +20,8 @@ Class for parsing arbitrary solana transactions in various formats
 ### new SolanaParser()
 
 > **new SolanaParser**(`programInfos`, `parsers`?): [`SolanaParser`](SolanaParser.md)
+
+Defined in: [parsers.ts:92](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L92)
 
 Initializes parser object
 `SystemProgram`, `TokenProgram` and `AssociatedTokenProgram` are supported by default
@@ -41,15 +45,13 @@ list of pairs (programId, custom parser)
 
 [`SolanaParser`](SolanaParser.md)
 
-#### Defined in
-
-parsers.ts:92
-
 ## Methods
 
 ### addParser()
 
 > **addParser**(`programId`, `parser`): `void`
+
+Defined in: [parsers.ts:128](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L128)
 
 Adds (or updates) parser for provided programId
 
@@ -71,15 +73,13 @@ parser to parse programId instructions
 
 `void`
 
-#### Defined in
-
-parsers.ts:127
-
 ***
 
 ### addParserFromIdl()
 
 > **addParserFromIdl**(`programId`, `idl`): `void`
+
+Defined in: [parsers.ts:137](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L137)
 
 Adds (or updates) parser for provided programId
 
@@ -101,15 +101,13 @@ IDL that describes anchor program
 
 `void`
 
-#### Defined in
-
-parsers.ts:136
-
 ***
 
 ### parseInstruction()
 
 > **parseInstruction**\<`I`, `IxName`\>(`instruction`): [`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`I`, `IxName`\>
+
+Defined in: [parsers.ts:203](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L203)
 
 Parses instruction
 
@@ -133,15 +131,43 @@ transaction instruction to parse
 
 parsed transaction instruction or UnknownInstruction
 
-#### Defined in
+***
 
-parsers.ts:202
+### parseLookupTable()
+
+> **parseLookupTable**(`connection`, `tx`): `Promise`\<\{ `lookup`: `LoadedAddresses`; `tx`: `VersionedTransaction`; \}\>
+
+Defined in: [parsers.ts:278](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L278)
+
+Parses lookup table address from a serialized transactions
+
+#### Parameters
+
+##### connection
+
+`Connection`
+
+the Rpc Connection to use
+
+##### tx
+
+base64-encoded string or raw Buffer which contains tx dump
+
+`string` | `Buffer`
+
+#### Returns
+
+`Promise`\<\{ `lookup`: `LoadedAddresses`; `tx`: `VersionedTransaction`; \}\>
+
+LoadedAddresses the Lookup table addresses
 
 ***
 
 ### parseTransactionByHash()
 
-> **parseTransactionByHash**(`connection`, `txId`, `flatten`, `commitment`): `Promise`\<[`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]\>
+> **parseTransactionByHash**(`connection`, `txId`, `flatten`, `commitment`): `Promise`\<[`ParserResults`](../interfaces/ParserResults.md) \| [`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]\>
+
+Defined in: [parsers.ts:245](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L245)
 
 Fetches tx from blockchain and parses it
 
@@ -171,19 +197,17 @@ true if CPI calls need to be parsed too
 
 #### Returns
 
-`Promise`\<[`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]\>
+`Promise`\<[`ParserResults`](../interfaces/ParserResults.md) \| [`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]\>
 
 list of parsed instructions
-
-#### Defined in
-
-parsers.ts:234
 
 ***
 
 ### parseTransactionData()
 
-> **parseTransactionData**\<`T`\>(`txMessage`, `altLoadedAddresses`): [`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]
+> **parseTransactionData**\<`T`\>(`txMessage`, `altLoadedAddresses`): [`ParserResults`](../interfaces/ParserResults.md)
+
+Defined in: [parsers.ts:219](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L219)
 
 Parses transaction data
 
@@ -207,19 +231,17 @@ VersionedTransaction.meta.loaddedAddresses if tx is versioned
 
 #### Returns
 
-[`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]
+[`ParserResults`](../interfaces/ParserResults.md)
 
 list of parsed instructions
-
-#### Defined in
-
-parsers.ts:218
 
 ***
 
 ### parseTransactionDump()
 
-> **parseTransactionDump**(`connection`, `txDump`): `Promise`\<[`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]\>
+> **parseTransactionDump**(`connection`, `txDump`): `Promise`\<[`ParserResults`](../interfaces/ParserResults.md)\>
+
+Defined in: [parsers.ts:267](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L267)
 
 Parses transaction dump
 
@@ -237,19 +259,47 @@ base64-encoded string or raw Buffer which contains tx dump
 
 #### Returns
 
-`Promise`\<[`ParsedInstruction`](../type-aliases/ParsedInstruction.md)\<`Idl`, `string`\>[]\>
+`Promise`\<[`ParserResults`](../interfaces/ParserResults.md)\>
 
 list of parsed instructions
 
-#### Defined in
+***
 
-parsers.ts:256
+### parseTx()
+
+> **parseTx**(`tx`, `lookup`): [`ParserResults`](../interfaces/ParserResults.md)
+
+Defined in: [parsers.ts:310](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L310)
+
+Parses a base64 transaction
+
+#### Parameters
+
+##### tx
+
+`string`
+
+base64-encoded transaction
+
+##### lookup
+
+`LoadedAddresses`
+
+LoadedAddresses used for v0 messages
+
+#### Returns
+
+[`ParserResults`](../interfaces/ParserResults.md)
+
+list of parsed instructions
 
 ***
 
 ### removeParser()
 
 > **removeParser**(`programId`): `void`
+
+Defined in: [parsers.ts:185](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/parsers.ts#L185)
 
 Removes parser for provided program id
 
@@ -264,7 +314,3 @@ program id to remove parser for
 #### Returns
 
 `void`
-
-#### Defined in
-
-parsers.ts:184

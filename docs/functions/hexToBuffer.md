@@ -1,12 +1,14 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / hexToBuffer
+[decifro](../README.md) / hexToBuffer
 
 # Function: hexToBuffer()
 
 > **hexToBuffer**(`data`): `Buffer`
+
+Defined in: [helpers.ts:17](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/helpers.ts#L17)
 
 ## Parameters
 
@@ -17,7 +19,3 @@
 ## Returns
 
 `Buffer`
-
-## Defined in
-
-helpers.ts:17

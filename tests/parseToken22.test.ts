@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { ParsedIdlInstruction, SolanaParser } from "../src/index";
+import { ParsedIdlInstruction, SolanaParser, SplToken22Idl } from "../src/index";
 import { TestUtils } from "./utils";
 import {
 	TOKEN_2022_PROGRAM_ID,
@@ -12,9 +12,14 @@ import {
 	AuthorityType,
 	createSetAuthorityInstruction,
 	createInitializeMultisigInstruction,
+	createInitializeDefaultAccountStateInstruction,
+	createUpdateDefaultAccountStateInstruction,
+	//createEnableRequiredMemoTransfersInstruction,
+	//createInitializeMemberInstruction,
+	createUpdateGroupMemberPointerInstruction,
+	AccountState,
 } from "@solana/spl-token";
 
-import { SplToken22 } from "../src/";
 const parser = new SolanaParser([]);
 const pk = TestUtils.pk();
 
@@ -22,7 +27,7 @@ describe("parse token22 program", () => {
 	it("should parse createInitializePermanentDelegateInstruction instruction", async () => {
 		const mint = TestUtils.pk();
 		const inst = createCreateNativeMintInstruction(mint, pk);
-		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "createNativeMint">;
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "createNativeMint">;
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "createNativeMint");
@@ -32,7 +37,7 @@ describe("parse token22 program", () => {
 	it("should parse createInitializePermanentDelegateInstruction instruction", async () => {
 		const mint = TestUtils.pk();
 		const inst = createInitializePermanentDelegateInstruction(mint, pk, TOKEN_2022_PROGRAM_ID);
-		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "initializePermanentDelegate">;
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "initializePermanentDelegate">;
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "initializePermanentDelegate");
@@ -43,7 +48,7 @@ describe("parse token22 program", () => {
 		const mint = TestUtils.pk();
 		const inst = createUpdateMetadataPointerInstruction(mint, pk, null);
 		// @ts-ignore
-		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "updateMetadataPointer">;
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "updateMetadataPointer">;
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "updateMetadataPointer");
@@ -53,7 +58,7 @@ describe("parse token22 program", () => {
 		const mint = TestUtils.pk();
 		const inst = createSetTransferFeeInstruction(mint, pk, [pk], 1234, BigInt(213));
 		// @ts-ignore
-		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "setTransferFee">;
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "setTransferFee">;
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "setTransferFee");
@@ -63,7 +68,7 @@ describe("parse token22 program", () => {
 		const mint = TestUtils.pk();
 		const inst = createTransferCheckedWithFeeInstruction(pk, mint, TestUtils.pk(), pk, BigInt(1234), 6, BigInt(99));
 		// @ts-ignore
-		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "transferCheckedWithFee">;
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "transferCheckedWithFee">;
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "transferCheckedWithFee");
@@ -72,7 +77,7 @@ describe("parse token22 program", () => {
 	it("should parse InitializeMultisig instruction", () => {
 		const inst = createInitializeMultisigInstruction(pk, [pk], 100, TOKEN_2022_PROGRAM_ID);
 		// @ts-ignore
-		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "initializeMultisig">;
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "initializeMultisig">;
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "initializeMultisig");
@@ -81,12 +86,39 @@ describe("parse token22 program", () => {
 	it(`should parse createInitializeMintCloseAuthorityInstruction`, () => {
 		const closeAuth = TestUtils.pk();
 		const inst = createInitializeMintCloseAuthorityInstruction(pk, closeAuth, TOKEN_2022_PROGRAM_ID);
-		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "initializeMintCloseAuthority">;
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "initializeMintCloseAuthority">;
 		assert.isDefined(result);
 		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 		assert.equal(result.name, "initializeMintCloseAuthority");
 		assert.equal(closeAuth.toBase58(), closeAuth.toBase58());
 		assert.equal(result.accounts[0].pubkey, pk);
+	});
+
+	it(`should parse initializeDefaultAccountState`, () => {
+		const st = AccountState.Frozen;
+		const inst = createInitializeDefaultAccountStateInstruction(pk, st, TOKEN_2022_PROGRAM_ID);
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<any, "initializeDefaultAccountState">;
+		assert.isDefined(result);
+		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
+		assert.equal(result.name, "initializeDefaultAccountState");
+	});
+
+	it(`should parse updateDefaultAccountState`, () => {
+		const st = AccountState.Frozen;
+		const inst = createUpdateDefaultAccountStateInstruction(pk, st, TOKEN_2022_PROGRAM_ID);
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<any, "updateDefaultAccountState">;
+		assert.isDefined(result);
+		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
+		assert.equal(result.name, "updateDefaultAccountState");
+	});
+
+	it(`should parse createInitializeMemberInstruction`, () => {
+		const pk = TestUtils.pk();
+		const inst = createUpdateGroupMemberPointerInstruction(pk, pk, null);
+		const result = parser.parseInstruction(inst) as ParsedIdlInstruction<any, "updateGroupMemberPointer">;
+		assert.isDefined(result);
+		assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
+		assert.equal(result.name, "updateGroupMemberPointer");
 	});
 });
 
@@ -113,7 +145,7 @@ describe("token createSetAuthorityInstruction", () => {
 		it(`should parse createSetAuthorityInstruction for authType:${authType}`, () => {
 			const newAuth = TestUtils.pk();
 			const inst = createSetAuthorityInstruction(pk, pk, authType, newAuth, undefined, TOKEN_2022_PROGRAM_ID);
-			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22, "setAuthority">;
+			const result = parser.parseInstruction(inst) as ParsedIdlInstruction<SplToken22Idl, "setAuthority">;
 			assert.isDefined(result);
 			assert.equal(result.programId.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58());
 			assert.equal(result.name, "setAuthority");

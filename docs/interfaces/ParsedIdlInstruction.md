@@ -1,10 +1,12 @@
-[**yasp**](../README.md)
+[**decifro**](../README.md)
 
 ***
 
-[yasp](../README.md) / ParsedIdlInstruction
+[decifro](../README.md) / ParsedIdlInstruction
 
 # Interface: ParsedIdlInstruction\<I, IxName\>
+
+Defined in: [interfaces.ts:81](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L81)
 
 ## Type Parameters
 
@@ -18,11 +20,9 @@
 
 > **accounts**: [`IdlAccountsToFlatMeta`](../type-aliases/IdlAccountsToFlatMeta.md)\<[`IxByName`](../type-aliases/IxByName.md)\<`I`, `IxName`\>\[`"accounts"`\], `""`\>
 
+Defined in: [interfaces.ts:88](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L88)
+
 Parsed accounts
-
-#### Defined in
-
-interfaces.ts:90
 
 ***
 
@@ -30,11 +30,9 @@ interfaces.ts:90
 
 > **args**: [`ParsedIdlArgs`](../type-aliases/ParsedIdlArgs.md)\<`I`, `IxName`\>
 
+Defined in: [interfaces.ts:86](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L86)
+
 Parsed arguments
-
-#### Defined in
-
-interfaces.ts:88
 
 ***
 
@@ -42,11 +40,9 @@ interfaces.ts:88
 
 > **name**: `IxName`
 
+Defined in: [interfaces.ts:83](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L83)
+
 Instruction name
-
-#### Defined in
-
-interfaces.ts:85
 
 ***
 
@@ -54,6 +50,4 @@ interfaces.ts:85
 
 > **programId**: `PublicKey`
 
-#### Defined in
-
-interfaces.ts:86
+Defined in: [interfaces.ts:84](https://github.com/dougEfresh/decifro/blob/052cf31bd09649eda8a05a939745830a399bb74d/src/interfaces.ts#L84)
