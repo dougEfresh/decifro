@@ -21,6 +21,13 @@ const parser = new SolanaParser([]);
 const pk = TestUtils.pk();
 
 describe("parse stake", () => {
+	it("debug", async () => {
+		const tx =
+			"AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQADBcYOYTPTZDHzvfgkb4prIHG5qfLoUHqfL2zOcAtM7ZW9XdUs0JW7zjyDNuaHour91CukceG4ZF1RZhWr4JekzWYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAah2BeRN1QqmDQ3vf4qerJVf1NcinhyK2ikncAAAAAABqfVFxksXFEhjMlMPUrxf1ja7gibof1E49vZigAAAAD82YGlUA/dYYWiW+g5J5Q9O5EuXZoTgwoJD1NnS75lJAICAwABAGYDAAAAxg5hM9NkMfO9+CRvimsgcbmp8uhQep8vbM5wC0ztlb0KAAAAAAAAADE3Mzg1MTE0MTMA5AtUAgAAAMgAAAAAAAAABqHYF5E3VCqYNDe9/ip6slV/U1yKeHIraKSdwAAAAAADBAEEAAAECQAAAAA=";
+		const result = await parser.parseTransactionDump(connection, tx);
+		assert.equal(3, result.parsedInstructions.length);
+	});
+
 	it("should parse StakeProgram.createAccount instruction", async () => {
 		const authorized = new Authorized(TestUtils.pk(), TestUtils.pk());
 		const tx = serialize(
