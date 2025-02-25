@@ -248,7 +248,7 @@ describe("parse system transaction", () => {
 	});
 
 	it("parse-lookup", async () => {
-		const lookup = (await connection.getAddressLookupTable(new PublicKey("BHucaGQGBaas1k4EKkgy4s6eBN9ufPUe6bBEM4Re6W2K"))).value;
+		const lookup = (await connection.getAddressLookupTable(new PublicKey("4VdGS3365Jqa2WGRUVpnSkpTVvzgHECdVYtbysSsEzj1"))).value;
 		const addresses = [
 			"Bd1MS8L2yhGuSYrtYWtSSofg1bfpZ1CTM37Mz1fTKqpn",
 			"68UdXWQSX74oSmriYDSGZx3pfg1L3hCu3MbMHYE6s3D",
@@ -275,7 +275,7 @@ describe("parse system transaction", () => {
 		const dump = Buffer.from(tx.serialize());
 		const parsed = await parser.parseTransactionDump(connection, dump);
 		const parsedTxLookup = await parser.parseLookupTable(connection, dump);
-		await parser.parseTx(dump.toString("base64"), parsedTxLookup.lookup);
+		parser.parseTx(dump.toString("base64"), parsedTxLookup.lookup);
 		const transfers = parsed.parsedInstructions.filter((pix) => pix.name === "transfer");
 		assert(transfers.length === 5, `expect 5 transfers, got ${transfers.length}`);
 		for (let i = 0; i < transfers.length; i++) {

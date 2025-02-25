@@ -84,6 +84,7 @@
     "@coral-xyz/anchor": "^0.30.1",
     "@coral-xyz/spl-token": "^0.30.1",
     "@noble/hashes": "^1.6.1",
+    "bn.js": "^5.2.1",
     "buffer": "6.0.3"
   },
   "peerDependencies": {
@@ -154,6 +155,20 @@
           "outputPath": "./coverage/test-report.html"
         }
       ]
+    ]
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "bigint-buffer",
+      "bufferutil",
+      "esbuild",
+      "utf-8-validate"
+    ],
+    "onlyBuiltDependencies": [
+      "bigint-buffer",
+      "bufferutil",
+      "esbuild",
+      "utf-8-validate"
     ]
   }
 }
