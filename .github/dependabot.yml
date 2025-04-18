@@ -7,6 +7,9 @@ version: 2
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
+    ignore:
+      - dependency-name: "chair"
+        update-types: [ "version-update:semver-major" ]
     schedule:
       interval: daily
       time: '01:00'
