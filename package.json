@@ -1,7 +1,7 @@
 {
   "name": "decifro",
   "description": "Yet another transaction parser for Solana. A tool for arbitrary Solana transactions with IDL/custom parsers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "dougEfresh",
   "license": "LGPL-2.1",
   "homepage": "https://github.com/dougEfresh/decifro",
